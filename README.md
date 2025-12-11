@@ -4,16 +4,26 @@ A modern, full-stack SaaS application for PDF processing built with Next.js and 
 
 ## 🚀 Features
 
+### PDF Tools
 - **Compress PDF** - Reduce PDF file size while maintaining quality
 - **Merge PDFs** - Combine multiple PDF files into a single document
 - **PDF to Image** - Convert PDF pages to PNG or JPG images
 - **Image to PDF** - Convert multiple images into a single PDF document
 - **View PDF** - View PDF files with browser's built-in controls (zoom, print, download)
 - **Extract Text** - Extract text from PDFs and images with OCR support
+- **Protect PDF** - Add password protection to secure your PDF files (AES encryption)
+- **Unlock PDF** - Remove password protection from encrypted PDFs
+
+### User Experience
 - 🎨 Clean, modern SaaS-style interface
 - 📤 Drag & drop file upload
 - 📊 Real-time progress indicators
+- 🔔 Toast notifications for feedback
+- 👁️ Password visibility toggle
+- ❌ Inline error validation
 - 📱 Fully responsive design
+- ⚡ Fast processing with async operations
+- 🗑️ Automatic file cleanup (files deleted after 1 hour)
 
 ## 🛠️ Tech Stack
 
@@ -52,100 +62,21 @@ docker compose down
 
 That's it! No manual dependency installation needed.
 
-## 📡 API Endpoints
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/pdf/compress` | POST | Compress PDF file |
-| `/pdf/merge` | POST | Merge multiple PDFs |
-| `/pdf/pdf-to-image` | POST | Convert PDF to images |
-| `/pdf/image-to-pdf` | POST | Convert images to PDF |
-| `/pdf/view` | POST | View PDF in browser |
-| `/pdf/extract-text` | POST | Extract text from PDF/image |
-
-Full API documentation available at: http://localhost:8005/docs
-
 ## 🎯 Usage
 
 1. Open http://localhost:3000 in your browser
-2. Select a tool from the sidebar (Compress, Merge, PDF to Image, etc.)
+2. Select a tool from the sidebar:
+   - **Compress PDF** - Reduce file size
+   - **Merge PDFs** - Combine multiple PDFs
+   - **PDF to Image** - Convert to PNG/JPG
+   - **Image to PDF** - Convert images to PDF
+   - **View PDF** - Preview PDF files
+   - **Extract Text** - Extract text with OCR
+   - **Protect PDF** - Add password protection
+   - **Unlock PDF** - Remove password protection
 3. Drag & drop files or click to browse
-4. Click process and download the result
-
-## 📁 Project Structure
-
-```
-toolkit-saas/
-├── backend/                          # FastAPI Backend
-│   ├── app/
-│   │   ├── main.py                  # FastAPI app entry point
-│   │   ├── routers/
-│   │   │   └── pdf.py               # PDF processing endpoints
-│   │   └── utils/
-│   │       ├── pdf_helpers.py       # PDF processing utilities
-│   │       └── file_helpers.py      # File management utilities
-│   ├── requirements.txt             # Python dependencies
-│   ├── Dockerfile                   # Backend Docker configuration
-│   └── .env.example                 # Environment template
-│
-├── frontend/                         # Next.js Frontend
-│   ├── src/
-│   │   ├── app/                     # Next.js App Router
-│   │   │   ├── layout.tsx           # Root layout
-│   │   │   ├── page.tsx             # Landing page
-│   │   │   └── dashboard/           # Main application
-│   │   │       ├── compress/        # Compress PDF tool
-│   │   │       ├── merge/           # Merge PDFs tool
-│   │   │       ├── pdf-to-image/    # PDF to Image converter
-│   │   │       ├── image-to-pdf/    # Image to PDF converter
-│   │   │       └── extract-text/    # Text extraction with OCR
-│   │   ├── components/
-│   │   │   ├── ui/                  # Reusable UI components
-│   │   │   ├── FileUpload.tsx       # Drag & drop file upload
-│   │   │   └── Sidebar.tsx          # Dashboard navigation
-│   │   ├── lib/
-│   │   │   └── api.ts               # Axios API client
-│   │   └── store/
-│   │       └── authStore.ts         # Zustand state management
-│   ├── package.json                 # Dependencies and scripts
-│   ├── Dockerfile                   # Frontend Docker configuration
-│   └── .env.example                 # Environment template
-│
-├── docker-compose.yml               # Docker orchestration
-├── .dockerignore                    # Docker ignore patterns
-├── DOCKER_SETUP.md                  # Detailed Docker guide
-└── README.md                        # This file
-```
-
-## 🌍 Environment Variables
-
-### Backend (.env)
-
-```env
-# CORS Configuration
-FRONTEND_URL=http://localhost:3000
-
-# Optional: Database (if implementing authentication)
-DATABASE_URL=postgresql://user:password@localhost:5432/dbname
-SECRET_KEY=your-secret-key-here
-ALGORITHM=HS256
-ACCESS_TOKEN_EXPIRE_MINUTES=30
-```
-
-### Frontend (.env.local)
-
-```env
-# API Configuration
-NEXT_PUBLIC_API_URL=http://localhost:8005
-```
-
-### Docker Environment
-
-Environment variables are pre-configured in `docker-compose.yml`:
-- Backend: `PYTHONUNBUFFERED=1`
-- Frontend: `NEXT_PUBLIC_API_URL=http://localhost:8005`
-
-No manual configuration needed for Docker setup!
+4. Configure settings (quality, format, password, etc.)
+5. Click process and download the result
 
 ## 📥 System Dependencies (Optional - For Local Development)
 
@@ -354,39 +285,12 @@ docker volume prune
 - All dependencies (Poppler, Tesseract) are included in Docker image
 - Check backend logs for specific error messages
 
-## 📦 Dependencies
-
-### Backend
-- `fastapi` - Web framework
-- `uvicorn` - ASGI server
-- `python-multipart` - File upload handling
-- `pypdf` - PDF manipulation
-- `pillow` - Image processing
-- `pdf2image` - PDF to image conversion
-- `reportlab` - PDF generation
-- `pytesseract` - OCR text extraction
-- `aiofiles` - Async file operations
-
-### Frontend
-- `next` - React framework (v14)
-- `react` - UI library
-- `typescript` - Type safety
-- `tailwindcss` - Styling
-- `axios` - HTTP client
-- `zustand` - State management
-- `lucide-react` - Icons
-- `react-hot-toast` - Notifications
-
-### System (Docker Image)
-- `poppler-utils` - PDF to image conversion
-- `tesseract-ocr` - OCR text extraction
-
 ## 🎨 Features Roadmap
 
+- [x] PDF encryption/decryption ✅
 - [ ] Batch file processing
 - [ ] PDF splitting by page range
 - [ ] Watermark addition
-- [ ] PDF encryption/decryption
 - [ ] Page rotation and reordering
 - [ ] Cloud storage integration (S3, Google Drive)
 - [ ] Email delivery of processed files
@@ -396,6 +300,8 @@ docker volume prune
 - [ ] PDF form filling
 - [ ] Digital signatures
 - [ ] Collaborative editing
+- [ ] PDF metadata editing
+- [ ] Advanced compression options
 
 ## 🤝 Contributing
 

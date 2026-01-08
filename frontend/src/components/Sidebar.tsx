@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { 
@@ -19,7 +19,7 @@ type MenuItem = {
 
 const navigation: MenuItem[] = [
   {
-    name: 'PDF Toolkit',
+    name: 'PDF Tools',
     icon: FileType,
     children: [
       { name: 'Compress PDF', href: '/dashboard/compress', icon: Minimize2 },
@@ -33,44 +33,54 @@ const navigation: MenuItem[] = [
     ]
   },
   {
-    name: 'Encoders/Decoders',
-    href: '/dashboard/encoder',
-    icon: Code2
-  },
-  {
-    name: 'Cryptography',
-    href: '/dashboard/cryptography',
-    icon: Hash
-  },
-  {
-    name: 'Formatting',
-    href: '/dashboard/formatting',
-    icon: Braces
-  },
-  {
-    name: 'Text Transform',
-    href: '/dashboard/text-transform',
-    icon: Type
-  },
-  {
-    name: 'Generators',
-    href: '/dashboard/generators',
-    icon: Wand2
+    name: 'Text Tools',
+    icon: Type,
+    children: [
+      { name: 'Encoders/Decoders', href: '/dashboard/encoder', icon: Code2 },
+      { name: 'Formatting', href: '/dashboard/formatting', icon: Braces },
+      { name: 'Text Transform', href: '/dashboard/text-transform', icon: Type },
+    ]
   },
   {
     name: 'JSON Editor',
     href: '/dashboard/json-editor',
     icon: FileJson
   },
+  {
+    name: 'Security',
+    icon: Hash,
+    children: [
+      { name: 'Cryptography', href: '/dashboard/cryptography', icon: Hash },
+    ]
+  },
+  {
+    name: 'Utilities',
+    icon: Wand2,
+    children: [
+      { name: 'Generators', href: '/dashboard/generators', icon: Wand2 },
+    ]
+  },
 ]
 
 function NavItem({ item, level = 0 }: { item: MenuItem; level?: number }) {
-  const [isOpen, setIsOpen] = useState(false)
   const pathname = usePathname()
   const Icon = item.icon
 
   const hasChildren = item.children && item.children.length > 0
   const isActive = item.href ? pathname === item.href : false
+  
+  // Check if any child is active
+  const hasActiveChild = hasChildren && item.children?.some(child => child.href === pathname)
+  
+  // Auto-expand if has active child
+  const [isOpen, setIsOpen] = useState(hasActiveChild || false)
+  
+  // Update isOpen when pathname changes
+  useEffect(() => {
+    if (hasActiveChild) {
+      setIsOpen(true)
+    }
+  }, [pathname, hasActiveChild])
 
   if (hasChildren) {
     return (
@@ -126,9 +136,9 @@ function NavItem({ item, level = 0 }: { item: MenuItem; level?: number }) {
 export function Sidebar() {
   return (
     <div className="flex h-screen w-64 flex-col bg-gray-900 text-white">
-      <div className="flex h-16 items-center justify-center border-b border-gray-800">
+      <Link href="/dashboard" className="flex h-16 items-center justify-center border-b border-gray-800 hover:bg-gray-800 transition-colors cursor-pointer">
         <h1 className="text-xl font-bold">Toolkit</h1>
-      </div>
+      </Link>
 
       <nav className="flex-1 space-y-1 px-3 py-4 overflow-y-auto">
         {navigation.map((item) => (

@@ -8,7 +8,7 @@ export default function Home() {
 
   useEffect(() => {
     // Skip authentication and go directly to dashboard
-    router.push('/dashboard/merge')
+    router.push('/dashboard')
   }, [router])
 
   return (

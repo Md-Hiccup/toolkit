@@ -258,7 +258,7 @@ export function Sidebar({ isOpen = true, onClose, onToggle }: SidebarProps) {
                 <Sparkles className="h-4 w-4 text-white" />
               </div>
               <div className="whitespace-nowrap">
-                <h1 className="text-base font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Toolkit</h1>
+                <h1 className="text-base font-bold bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">ToolStack</h1>
                 <p className="text-[10px] text-gray-400 leading-tight">Your productivity suite</p>
               </div>
             </Link>

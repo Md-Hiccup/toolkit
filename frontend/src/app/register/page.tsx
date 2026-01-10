@@ -44,7 +44,7 @@ export default function RegisterPage() {
         <CardHeader className="space-y-1">
           <CardTitle className="text-2xl font-bold text-center">Create Account</CardTitle>
           <CardDescription className="text-center">
-            Sign up for PDF Toolkit
+            Sign up for ToolStack
           </CardDescription>
         </CardHeader>
         <CardContent>

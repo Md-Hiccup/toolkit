@@ -214,20 +214,10 @@ interface SidebarProps {
 export function Sidebar({ isOpen = true, onClose, onToggle }: SidebarProps) {
   return (
     <>
-      {/* Mobile overlay - only on mobile when open */}
-      {isOpen && (
-        <div 
-          className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300"
-          onClick={onClose}
-        />
-      )}
-      
-      {/* Sidebar */}
+      {/* Sidebar - always visible, just changes width */}
       <div className={cn(
-        "fixed lg:relative inset-y-0 left-0 z-50 flex h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950 text-white transition-all duration-300 ease-in-out shadow-2xl",
-        isOpen ? "w-72" : "w-20",
-        // On mobile, hide completely when closed
-        !isOpen && "max-lg:-translate-x-full"
+        "relative flex h-screen flex-col bg-gradient-to-b from-gray-900 via-gray-900 to-gray-950 text-white transition-all duration-300 ease-in-out shadow-2xl flex-shrink-0",
+        isOpen ? "w-72" : "w-20"
       )}>
         {/* Header with Hamburger */}
         <div className="flex h-14 items-center border-b border-gray-800/50 flex-shrink-0">

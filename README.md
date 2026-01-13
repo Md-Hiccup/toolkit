@@ -1,6 +1,6 @@
 # Toolkit SaaS
 
-A modern, full-stack SaaS application for PDF processing built with Next.js and FastAPI. Process PDFs with ease - compress, merge, convert, view, and extract text from PDF documents.
+A modern, full-stack SaaS application built with Next.js and FastAPI. A comprehensive toolkit featuring PDF processing, encoding/decoding utilities, JSON editing, text transformation, cryptographic hashing, and text generators - all in one place.
 
 ## 🚀 Features
 
@@ -13,6 +13,39 @@ A modern, full-stack SaaS application for PDF processing built with Next.js and 
 - **Extract Text** - Extract text from PDFs and images with OCR support
 - **Protect PDF** - Add password protection to secure your PDF files (AES encryption)
 - **Unlock PDF** - Remove password protection from encrypted PDFs
+
+### Encoding & Decoding Tools
+- **JWT** - Encode and decode JSON Web Tokens with custom secret keys and algorithms (HS256, HS384, HS512)
+- **Base32** - Encode and decode Base32 strings
+- **Base64** - Standard Base64 encoding and decoding
+- **URL-safe Base64** - URL-safe Base64 encoding and decoding
+- **MIME Base64** - MIME-compliant Base64 encoding and decoding
+- **URL Encoding** - Encode and decode URL-encoded strings
+- **HTML Encoding** - Encode and decode HTML entities
+- **Unicode** - Escape and unescape Unicode characters
+
+### Cryptography & Hashing
+- **Hash Functions** - MD5, SHA1, SHA256, SHA512
+- **HMAC** - HMAC-MD5, HMAC-SHA1, HMAC-SHA256, HMAC-SHA512 with secret keys
+- **Secure Hashing** - Generate cryptographic hashes for data integrity
+
+### JSON Tools
+- **JSON Editor** - Advanced JSON editing with real-time validation
+- **Format JSON** - Pretty-print JSON with proper indentation
+- **Minify JSON** - Compress JSON by removing whitespace
+- **JSON Query** - Query JSON data with JSONPath-like expressions
+- **JSON Transform** - Transform and manipulate JSON structures
+- **JSON Validation** - Validate JSON syntax and structure
+
+### Text Transformation
+- **Case Conversion** - Convert text to UPPERCASE, lowercase, or Title Case
+- **Text Reversal** - Reverse text strings
+- **Line Sorting** - Sort lines alphabetically
+
+### Generators
+- **UUID Generator** - Generate unique UUIDs (v4)
+- **Lorem Ipsum** - Generate placeholder text (Lorem Ipsum or random text)
+- **Random Text** - Generate random text with custom paragraph counts
 
 ### User Experience
 - 🎨 Clean, modern SaaS-style interface
@@ -27,8 +60,19 @@ A modern, full-stack SaaS application for PDF processing built with Next.js and 
 
 ## 🛠️ Tech Stack
 
-**Frontend:** Next.js 14, TypeScript, TailwindCSS, Axios  
-**Backend:** FastAPI (Python), pypdf, pillow, pdf2image, reportlab, pytesseract
+**Frontend:** 
+- Next.js 14, TypeScript, TailwindCSS
+- Axios for API calls
+- Zustand for state management
+- React Hot Toast for notifications
+- Lucide React for icons
+
+**Backend:** 
+- FastAPI (Python) with async support
+- PDF Processing: pypdf, pillow, pdf2image, reportlab, pytesseract
+- Authentication: PyJWT for token-based auth
+- File handling: aiofiles for async file operations
+- Environment: python-dotenv, pydantic-settings
 
 ## 🚦 Quick Start with Docker
 
@@ -65,18 +109,67 @@ That's it! No manual dependency installation needed.
 ## 🎯 Usage
 
 1. Open http://localhost:3000 in your browser
-2. Select a tool from the sidebar:
-   - **Compress PDF** - Reduce file size
-   - **Merge PDFs** - Combine multiple PDFs
-   - **PDF to Image** - Convert to PNG/JPG
-   - **Image to PDF** - Convert images to PDF
-   - **View PDF** - Preview PDF files
-   - **Extract Text** - Extract text with OCR
-   - **Protect PDF** - Add password protection
-   - **Unlock PDF** - Remove password protection
-3. Drag & drop files or click to browse
-4. Configure settings (quality, format, password, etc.)
-5. Click process and download the result
+2. Select a tool from the dashboard:
+   
+   **PDF Tools:**
+   - Compress PDF, Merge PDFs, PDF to Image, Image to PDF
+   - View PDF, Extract Text, Encrypt PDF, Decrypt PDF
+   
+   **Encoding/Decoding:**
+   - JWT, Base32, Base64, URL-safe Base64, MIME Base64
+   - URL Encoding, HTML Encoding, Unicode
+   
+   **Cryptography:**
+   - Hash Functions (MD5, SHA1, SHA256, SHA512)
+   - HMAC (MD5, SHA1, SHA256, SHA512)
+   
+   **JSON Tools:**
+   - JSON Editor with formatting, minification, querying, and transformation
+   
+   **Text Tools:**
+   - Case conversion, text reversal, line sorting
+   
+   **Generators:**
+   - UUID Generator, Lorem Ipsum, Random Text
+
+3. For file-based tools: Drag & drop files or click to browse
+4. For text-based tools: Enter or paste your text/data
+5. Configure settings (quality, format, password, secret keys, etc.)
+6. Click process and get instant results or download files
+
+## 🗄️ Database Setup (Optional - For Authentication)
+
+The application includes a JWT-based authentication system that's ready to use. To enable it:
+
+1. **Install PostgreSQL** (if not using Docker)
+   ```bash
+   # macOS
+   brew install postgresql
+   
+   # Ubuntu/Debian
+   sudo apt-get install postgresql
+   ```
+
+2. **Create Database**
+   ```bash
+   createdb toolkit_db
+   ```
+
+3. **Initialize Database**
+   ```bash
+   cd backend
+   python init_db.py
+   ```
+
+4. **Update Environment Variables**
+   ```bash
+   # backend/.env
+   DATABASE_URL=postgresql://user:password@localhost/toolkit_db
+   SECRET_KEY=your-secret-key-here
+   ACCESS_TOKEN_EXPIRE_MINUTES=30
+   ```
+
+**Note:** Authentication endpoints are implemented but not yet integrated into the frontend. The system is ready for user registration, login, and protected routes.
 
 ## 📥 System Dependencies (Optional - For Local Development)
 
@@ -187,6 +280,48 @@ docker compose exec frontend sh
 npm run lint
 ```
 
+## 📡 API Endpoints
+
+The backend provides a comprehensive REST API. Access the interactive API documentation at:
+- **Swagger UI**: http://localhost:8005/docs
+- **ReDoc**: http://localhost:8005/redoc
+
+### Main Endpoint Categories
+
+**PDF Operations** (`/pdf`)
+- POST `/pdf/merge` - Merge multiple PDFs
+- POST `/pdf/compress` - Compress PDF files
+- POST `/pdf/pdf-to-image` - Convert PDF to images
+- POST `/pdf/image-to-pdf` - Convert images to PDF
+- POST `/pdf/extract-text` - Extract text from PDFs
+- POST `/pdf/encrypt` - Encrypt PDF with password
+- POST `/pdf/decrypt` - Decrypt password-protected PDF
+- POST `/pdf/remove-password` - Remove PDF password
+
+**Encoder/Decoder** (`/encoder`)
+- JWT: `/jwt/encode`, `/jwt/decode`
+- Base32: `/base32/encode`, `/base32/decode`
+- Base64: `/base64/encode`, `/base64/decode`
+- URL Base64: `/url-base64/encode`, `/url-base64/decode`
+- MIME Base64: `/mime-base64/encode`, `/mime-base64/decode`
+- URL: `/url/encode`, `/url/decode`
+- HTML: `/html/encode`, `/html/decode`
+- Unicode: `/unicode/escape`, `/unicode/unescape`
+- Hash: `/hash/md5`, `/hash/sha1`, `/hash/sha256`, `/hash/sha512`
+- HMAC: `/hmac/md5`, `/hmac/sha1`, `/hmac/sha256`, `/hmac/sha512`
+- JSON: `/json/format`, `/json/minify`
+- Text: `/text/upper`, `/text/lower`, `/text/title`, `/text/reverse`, `/text/sort`
+- Generate: `/generate/uuid`, `/generate/lorem`
+
+**JSON Editor** (`/json-editor`)
+- POST `/json-editor/transform` - Transform, format, minify, query JSON
+- POST `/json-editor/validate` - Validate JSON syntax
+
+**Authentication** (`/auth`) - Ready for integration
+- POST `/auth/register` - Register new user
+- POST `/auth/login` - Login and get JWT token
+- GET `/auth/me` - Get current user info
+
 ## 🚀 Deployment
 
 ### Docker Hub
@@ -216,16 +351,27 @@ docker push yourusername/toolkit-frontend:latest
 
 ## 🔒 Security Considerations
 
+### Implemented ✅
 - ✅ File validation on upload
 - ✅ Temporary file cleanup (auto-cleanup every 30 minutes)
 - ✅ CORS configuration
+- ✅ JWT-based authentication system (ready for integration)
+- ✅ Password hashing with bcrypt
+- ✅ Secure token generation
+- ✅ Environment variable configuration
+- ✅ User tier system (Free/Premium)
+
+### Production Recommendations ⚠️
+- ⚠️ Enable authentication for all endpoints
 - ⚠️ Add rate limiting in production
-- ⚠️ Implement file size limits
+- ⚠️ Implement file size limits per user tier
 - ⚠️ Use HTTPS in production
 - ⚠️ Sanitize file names
-- ⚠️ Add authentication for sensitive operations
-- ⚠️ Set up environment variables properly
-- ⚠️ Use secrets management for production
+- ⚠️ Use secrets management (AWS Secrets Manager, HashiCorp Vault)
+- ⚠️ Set up database backups
+- ⚠️ Implement request logging and monitoring
+- ⚠️ Add CSRF protection
+- ⚠️ Configure secure headers (HSTS, CSP, etc.)
 
 ## 🐛 Troubleshooting
 
@@ -287,21 +433,36 @@ docker volume prune
 
 ## 🎨 Features Roadmap
 
-- [x] PDF encryption/decryption ✅
+### Completed ✅
+- [x] PDF encryption/decryption
+- [x] Encoding/Decoding tools (JWT, Base64, Base32, URL, HTML, Unicode)
+- [x] Cryptographic hashing (MD5, SHA1, SHA256, SHA512, HMAC)
+- [x] JSON Editor with advanced features
+- [x] Text transformation tools
+- [x] UUID and Lorem Ipsum generators
+- [x] User authentication system (JWT-based)
+- [x] Background file cleanup
+
+### Planned 🚀
+- [ ] User accounts and file history (authentication ready, needs integration)
 - [ ] Batch file processing
 - [ ] PDF splitting by page range
 - [ ] Watermark addition
 - [ ] Page rotation and reordering
 - [ ] Cloud storage integration (S3, Google Drive)
 - [ ] Email delivery of processed files
-- [ ] User accounts and file history
 - [ ] API rate limiting
-- [ ] Payment integration (Stripe)
+- [ ] Payment integration (Stripe) with tier system
 - [ ] PDF form filling
 - [ ] Digital signatures
 - [ ] Collaborative editing
 - [ ] PDF metadata editing
 - [ ] Advanced compression options
+- [ ] More encoding formats (Hex, Binary, ASCII85)
+- [ ] Regular expressions tester
+- [ ] Diff checker for text/JSON
+- [ ] QR code generator
+- [ ] Color converter (HEX, RGB, HSL)
 
 ## 🤝 Contributing
 
@@ -347,4 +508,20 @@ For issues or questions:
 
 ---
 
-**Built with ❤️ using Next.js and FastAPI**
+## 📊 Project Statistics
+
+- **8 PDF Tools** - Complete PDF processing suite
+- **25+ Encoding/Decoding Tools** - Comprehensive text transformation
+- **8 Cryptographic Functions** - Secure hashing and HMAC
+- **5 JSON Operations** - Advanced JSON manipulation
+- **6 Text Tools** - Text transformation utilities
+- **3 Generators** - UUID and text generation
+- **Authentication System** - JWT-based user management ready
+- **Background Jobs** - Automatic file cleanup
+- **Full Docker Support** - One-command deployment
+
+---
+
+**Built with ❤️ using Next.js 14 and FastAPI**
+
+A comprehensive developer toolkit combining PDF processing, encoding utilities, cryptography, and text transformation - all in one modern SaaS application.
